@@ -44,6 +44,6 @@ server.delete("/delete/:id", async (req, res) => {
   }
 });
 
-server.listen(4000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log("listening");
 });
