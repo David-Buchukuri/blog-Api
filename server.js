@@ -38,9 +38,16 @@ server.get("/blogs/:id", async (req, res) => {
 
 server.delete("/delete/:id", async (req, res) => {
   try {
-    await DB.query(`delete from blogs where id = '${req.params.id}'`);
-    res.status(201).json("deleted succesfully");
+    let data = await DB.query(
+      `delete from blogs where id = '${req.params.id}' `
+    );
+    if (!Number(data.rowCount)) throw new Error(`couldn't find blog`);
+    res.status(204).json("deleted succesfully");
   } catch (err) {
+    if (err.message === `couldn't find blog`) {
+      res.status(404).json({ message: err.message });
+      return;
+    }
     res.status(404).json({ message: "database error when deleting" });
   }
 });
@@ -49,6 +56,6 @@ server.use("*", (req, res, next) => {
   res.status(404).json(`can not find ${req.originalUrl} on server`);
 });
 
-server.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3001, () => {
   console.log("listening");
 });
