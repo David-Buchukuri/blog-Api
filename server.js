@@ -7,7 +7,7 @@ server.use(express.json());
 
 server.post("/insert", async (req, res) => {
   try {
-    let query = `insert into blogs (title,body,author) VALUES ("${req.body.title}", "${req.body.body}", "${req.body.author}" ) RETURNING *`;
+    let query = `insert into blogs (title,body,author) VALUES ('${req.body.title}', '${req.body.body}', '${req.body.author}' ) RETURNING *`;
     let data = await DB.query(query);
     res.status(200).json(data.rows);
   } catch (err) {
