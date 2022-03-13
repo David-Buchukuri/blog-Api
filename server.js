@@ -42,7 +42,7 @@ server.delete("/delete/:id", async (req, res) => {
       `delete from blogs where id = '${req.params.id}' `
     );
     if (!Number(data.rowCount)) throw new Error(`couldn't find blog`);
-    res.status(204).json("deleted succesfully");
+    res.status(204).json({ message: "deleted succesfully" });
   } catch (err) {
     if (err.message === `couldn't find blog`) {
       res.status(404).json({ message: err.message });
